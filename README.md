@@ -118,8 +118,6 @@ The container is set up by setting [environment variables](https://docs.docker.c
 
 ## Environment variables
 
-* `RESTIC_REPOSITORY` - the location of the restic repository. Default `/mnt/restic`. For S3: `s3:https://s3.amazonaws.com/BUCKET_NAME`
-* `RESTIC_PASSWORD` - the password for the restic repository. Will also be used for restic init during first start when the repository is not initialized.
 * `RESTIC_TAG` - Optional. To tag the images created by the container.
 * `NFS_TARGET` - Optional. If set, the given NFS is mounted, i.e. `mount -o nolock -v ${NFS_TARGET} /mnt/restic`. `RESTIC_REPOSITORY` must remain its default value!
 * `BACKUP_CRON` - A cron expression to run the backup. Note: The cron daemon uses UTC time zone. Default: `0 */6 * * *` aka every 6 hours.
@@ -128,8 +126,6 @@ The container is set up by setting [environment variables](https://docs.docker.c
 * `RESTIC_INIT_ARGS` - Optional. Allows specifying extra arguments to `restic init` such as a password file with `--password-file`.
 * `RESTIC_JOB_ARGS` - Optional. Allows specifying extra arguments to the backup job such as limiting bandwith with `--limit-upload` or excluding file masks with `--exclude`.
 * `RESTIC_DATA_SUBSET` - Optional. You can pass a value to `--read-data-subset` when a repository check is run. If left unset, only the structure of the repository is verified. Note: `CHECK_CRON` must be set for check to be run automatically.
-* `AWS_ACCESS_KEY_ID` - Optional. When using restic with AWS S3 storage.
-* `AWS_SECRET_ACCESS_KEY` - Optional. When using restic with AWS S3 storage.
 * `TEAMS_WEBHOOK_URL` - Optional. If specified, the content of `/var/log/backup-last.log` and `/var/log/check-last.log` is sent to your Microsoft Teams channel after each backup and data integrity check.
 * `MAILX_ARGS` - Optional. If specified, the content of `/var/log/backup-last.log` and `/var/log/check-last.log` is sent via mail after each backup and data integrity check using an *external SMTP*. To have maximum flexibility, you have to specify the mail/smtp parameters on your own. Have a look at the [mailx manpage](https://linux.die.net/man/1/mailx) for further information. Example value: `-e "MAILX_ARGS=-r 'from@example.de' -s 'Result of the last restic run' -S smtp='smtp.example.com:587' -S smtp-use-starttls -S smtp-auth=login -S smtp-auth-user='username' -S smtp-auth-password='password' 'to@example.com'"`.
 * `OS_AUTH_URL` - Optional. When using restic with OpenStack Swift container.
@@ -137,11 +133,19 @@ The container is set up by setting [environment variables](https://docs.docker.c
 * `OS_PROJECT_NAME` - Optional. When using restic with OpenStack Swift container.
 * `OS_USER_DOMAIN_NAME` - Optional. When using restic with OpenStack Swift container.
 * `OS_PROJECT_DOMAIN_ID` - Optional. When using restic with OpenStack Swift container.
-* `OS_USERNAME` - Optional. When using restic with OpenStack Swift container.
-* `OS_PASSWORD` - Optional. When using restic with OpenStack Swift container.
 * `OS_REGION_NAME` - Optional. When using restic with OpenStack Swift container.
 * `OS_INTERFACE` - Optional. When using restic with OpenStack Swift container.
 * `OS_IDENTITY_API_VERSION` - Optional. When using restic with OpenStack Swift container.
+
+The following environment variables have a `*_FILE` counterpart for reading their value from a Docker secret file instead.
+
+* `RESTIC_REPOSITORY` - the location of the restic repository. Default `/mnt/restic`. For S3: `s3:https://s3.amazonaws.com/BUCKET_NAME`
+* `RESTIC_PASSWORD` - the password for the restic repository. Will also be used for restic init during first start when the repository is not initialized.
+* `NTFY_URL` - the `ntfy.sh` notification URL
+* `AWS_ACCESS_KEY_ID` - Optional. When using restic with AWS S3 storage.
+* `AWS_SECRET_ACCESS_KEY` - Optional. When using restic with AWS S3 storage.
+* `OS_USERNAME` - Optional. When using restic with OpenStack Swift container.
+* `OS_PASSWORD` - Optional. When using restic with OpenStack Swift container.
 
 ## Volumes
 

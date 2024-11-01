@@ -6,7 +6,7 @@ RUN unzip rclone-current-linux-amd64.zip && mv rclone-*-linux-amd64/rclone /bin/
 
 FROM restic/restic:0.16.0
 
-RUN apk add --update --no-cache curl mailx
+RUN apk add --update --no-cache curl mailx bash
 
 COPY --from=rclone /bin/rclone /bin/rclone
 
@@ -14,8 +14,6 @@ RUN \
     mkdir -p /mnt/restic /var/spool/cron/crontabs /var/log; \
     touch /var/log/cron.log;
 
-ENV RESTIC_REPOSITORY=/mnt/restic
-ENV RESTIC_PASSWORD=""
 ENV RESTIC_TAG=""
 ENV NFS_TARGET=""
 ENV BACKUP_CRON="0 */6 * * *"
@@ -30,8 +28,6 @@ ENV OS_PROJECT_ID=""
 ENV OS_PROJECT_NAME=""
 ENV OS_USER_DOMAIN_NAME="Default"
 ENV OS_PROJECT_DOMAIN_ID="default"
-ENV OS_USERNAME=""
-ENV OS_PASSWORD=""
 ENV OS_REGION_NAME=""
 ENV OS_INTERFACE=""
 ENV OS_IDENTITY_API_VERSION=3
@@ -53,6 +49,7 @@ VOLUME /data
 COPY backup.sh /bin/backup
 COPY check.sh /bin/check
 COPY entry.sh /entry.sh
+COPY env.sh /env.sh
 
 ENTRYPOINT ["/entry.sh"]
 CMD ["tail","-fn0","/var/log/cron.log"]

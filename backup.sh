@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+source /env.sh
 
 lastLogfile="/var/log/backup-last.log"
 lastMailLogfile="/var/log/mail-last.log"
@@ -77,6 +79,15 @@ if [ -n "${MAILX_ARGS}" ]; then
         echo "Mail notification successfully sent."
     else
         echo "Sending mail notification FAILED. Check ${lastMailLogfile} for further information."
+    fi
+fi
+
+if [ -n "${NTFY_URL}" ]; then
+    sh -c "curl -d 'Sauvegarde volumes sharednextcloud OK' $NTFY_URL 2>&1"
+    if [ $? == 0 ]; then
+        echo "Ntfy.sh notification successfully sent."
+    else
+        echo "Sending Ntfy.sh notification FAILED. Check ${lastMailLogfile} for further information."
     fi
 fi
 

@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+source /env.sh
 
 lastLogfile="/var/log/check-last.log"
 lastMailLogfile="/var/log/check-mail-last.log"

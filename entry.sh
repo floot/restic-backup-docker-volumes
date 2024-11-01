@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+source /env.sh
 
 echo "Starting container ..."
 
