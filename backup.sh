@@ -83,7 +83,7 @@ if [ -n "${MAILX_ARGS}" ]; then
 fi
 
 if [ -n "${NTFY_URL}" ]; then
-    sh -c "curl -d 'Sauvegarde volumes sharednextcloud OK' $NTFY_URL 2>&1"
+    sh -c "curl -d 'Sauvegarde volumes `hostname` OK' $NTFY_URL 2>&1"
     if [ $? == 0 ]; then
         echo "Ntfy.sh notification successfully sent."
     else
